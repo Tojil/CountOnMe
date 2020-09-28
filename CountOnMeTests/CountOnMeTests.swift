@@ -128,6 +128,7 @@ class CountOnMeTests: XCTestCase {
         calculator.tappedNumberButton(numberText: "1")
         calculator.tappedOperatorButton(operatorText: "+")
         calculator.tappedNumberButton(numberText: "1")
-        XCTAssertEqual(calculator.calculText, "0")
+        calculator.tappedEqualButton()
+        XCTAssertEqual(calculator.calculText, " - 1 + 1 = 0")
     }
 }

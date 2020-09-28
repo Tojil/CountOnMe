@@ -15,7 +15,7 @@ protocol CalculatorDisplay {
 
 class Calculator {
     var calculatorDisplayDelegate: CalculatorDisplay?
-
+    
     var calculText: String = "1 + 1 = 2" {
         didSet {
             calculatorDisplayDelegate?.updateCalcul(calculText: calculText)
@@ -26,15 +26,14 @@ class Calculator {
         var elements = calculText.split(separator: " ").map { "\($0)" }
         if elements.first == "-" {
             // devoir verifier que elements[1] est bien un chiffre si non envoyer une alerte
-            if elements[1] != "\(canAddOperator)" {
+            if elements.count >= 2 {
                 elements[1] = "-\(elements[1])"
                 elements.removeFirst()
-            } else {
-                calculatorDisplayDelegate?.showAlert(message: "Un operateur est déja mis !")
             }
         }
         return elements
     }
+    
     
     // Error check computed variables
     var expressionIsCorrect: Bool {
@@ -77,68 +76,19 @@ class Calculator {
         calculText.append(numberText)
     }
     
-//    func tappedAdditionButton() {
-//
-//        if expressionHaveResult {
-//            tappedClearButton()
-//        }
-//
-//        if canAddOperator && !calculText.isEmpty {
-//            calculText.append(" + ")
-//        } else {
-//            calculatorDisplayDelegate?.showAlert(message: "Un operateur est déja mis !")
-//        }
-//    }
-    
-//    func tappedSubstractionButton() {
-//        if expressionHaveResult {
-//                   tappedClearButton()
-//               }
-//        if canAddOperator {
-//            calculText.append(" - ")
-//        } else {
-//            calculatorDisplayDelegate?.showAlert(message: "Un operateur est déja mis !")
-//        }
-//    }
-    
-//    func tappedDivisionButton() {
-//
-//        if expressionHaveResult {
-//            tappedClearButton()
-//        }
-//
-//        if canAddOperator && !calculText.isEmpty {
-//            calculText.append(" / ")
-//        } else {
-//            calculatorDisplayDelegate?.showAlert(message: "Impossible de damarrer avec / !")
-//        }
-
-//    }
-//
-//    func tappedMultiplicationButton() {
-//
-//        if expressionHaveResult {
-//            tappedClearButton()
-//        }
-//
-//        if canAddOperator && !calculText.isEmpty {
-//            calculText.append(" * ")
-//        } else {
-//            calculatorDisplayDelegate?.showAlert(message: "Impossible de damarrer avec * !")
-//        }
-//    }
-    
     func tappedOperatorButton(operatorText: String) {
         if expressionHaveResult {
             tappedClearButton()
         }
+        
+        // si on peut ajouter un opérateur et que le calcul n'est pas vide
+        // si le calcul est vide et que l'opérateur est un -
         
         if (canAddOperator && !calculText.isEmpty) || (calculText.isEmpty && operatorText == "-") {
             calculText.append(" \(operatorText) ")
         } else {
             calculatorDisplayDelegate?.showAlert(message: "Impossible de damarrer avec \(operatorText) !")
         }
-        
     }
     
     func tappedEqualButton() {
@@ -146,7 +96,6 @@ class Calculator {
             calculatorDisplayDelegate?.showAlert(message: "Entrez une expression correcte !")
             return
         }
-        
         guard expressionHaveEnoughElement else {
             calculatorDisplayDelegate?.showAlert(message: "Démarrez un nouveau calcul !")
             return
@@ -186,15 +135,15 @@ class Calculator {
         var tempElements = elements
         // Ici devoir faire un boucle while qui va chequer si tempElements contien un multipliant ou contien un diviser
         while tempElements.contains("*") || tempElements.contains("/") {
-                    //Ici je vais recuperer l'index du premier signe multiplier ou diviser que je rencontre
+            //Ici je vais recuperer l'index du premier signe multiplier ou diviser que je rencontre
             if let index = tempElements.firstIndex(where: { $0 == "*" || $0 == "/"}) {
                 //maintenant qu'on a l'index on va recuperer la valeur de cette index
                 let mathOperator = tempElements[index]
-                        //aller recuperer le chifre a gauche (index - 1) et ensuite
+                //aller recuperer le chifre a gauche (index - 1) et ensuite
                 guard let leftNumber = Double(tempElements[index - 1]) else { return [] }
-                       //ensuite recuperer le chifre a droite avec (index + 1)
+                //ensuite recuperer le chifre a droite avec (index + 1)
                 guard let rightNumber = Double(tempElements[index + 1]) else { return [] }
-                  // si l'operteur est un multiplier alors chifre de gauche multiplier par chifre de droite si non chifre de gauche diviser par chifr de droite et on stocke le resultat du calcul dans une variable
+                // si l'operteur est un multiplier alors chifre de gauche multiplier par chifre de droite si non chifre de gauche diviser par chifr de droite et on stocke le resultat du calcul dans une variable
                 let result: Double
                 if mathOperator == "*" {
                     result = leftNumber * rightNumber
@@ -203,9 +152,9 @@ class Calculator {
                 }
                 // Maintenant qu'on a le resultat du calcul on va remplacer le chifre de gauche par le resultat du calcul
                 tempElements[index - 1] = String(result)
-                        // on va suprimer le chifre de droite
+                // on va suprimer le chifre de droite
                 tempElements.remove(at: index + 1)
-                        // et on suprime l'operateur
+                // et on suprime l'operateur
                 tempElements.remove(at: index)
             }
         }
