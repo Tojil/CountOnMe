@@ -8,18 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
+    
+    // MARK: - OUTLETS
+    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
+    
+    // MARK: - PROPERTIES
+    
     private let calculator = Calculator()
-    // View Life cycles
+    
+    // MARK: - View Life cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         calculator.calculatorDisplayDelegate = self
     }
     
     
-    // View actions
+    // MARK: - ACTIONS
     
     @IBAction func tappedClearButton(_ sender: UIButton) {
         calculator.tappedClearButton()
@@ -30,28 +38,12 @@ class ViewController: UIViewController {
             return
         }
         calculator.tappedNumberButton(numberText: numberText)
-        
     }
+    
     @IBAction func teppedOperatorButton(_ sender: UIButton) {
         guard let operatorText = sender.title(for: .normal) else { return }
         calculator.tappedOperatorButton(operatorText: operatorText)
     }
-    
-//    @IBAction func tappedAdditionButton(_ sender: UIButton) {
-//        calculator.tappedOperatorButton(operatorText: "+")
-//    }
-//
-//    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-//        calculator.tappedOperatorButton(operatorText: "-")
-//    }
-//
-//    @IBAction func tappedDivisionButton(_ sender: UIButton) {
-//        calculator.tappedOperatorButton(operatorText: "/")
-//    }
-//
-//    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-//        calculator.tappedOperatorButton(operatorText: "*")
-//    }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         calculator.tappedEqualButton()
@@ -59,6 +51,8 @@ class ViewController: UIViewController {
     }
     
 }
+
+// MARK: - Calculator Display
 
 extension ViewController: CalculatorDisplay {
     func updateCalcul(calculText: String) {

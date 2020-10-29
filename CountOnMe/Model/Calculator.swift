@@ -16,16 +16,16 @@ protocol CalculatorDisplay {
 class Calculator {
     var calculatorDisplayDelegate: CalculatorDisplay?
     
+    /// It is the element that stores the calculation
     var calculText: String = "1 + 1 = 2" {
         didSet {
             calculatorDisplayDelegate?.updateCalcul(calculText: calculText)
         }
     }
-    
-    var elements: [String] {
+    /// Transforms the calculText  into an array of String
+    private var elements: [String] {
         var elements = calculText.split(separator: " ").map { "\($0)" }
         if elements.first == "-" {
-            // devoir verifier que elements[1] est bien un chiffre si non envoyer une alerte
             if elements.count >= 2 {
                 elements[1] = "-\(elements[1])"
                 elements.removeFirst()
@@ -35,27 +35,32 @@ class Calculator {
     }
     
     
-    // Error check computed variables
-    var expressionIsCorrect: Bool {
+    ///Check if expression is correct
+    private var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "/" && elements.last != "*"
     }
     
-    var expressionHaveEnoughElement: Bool {
+    ///Check if expression have enough elements
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
     
-    var canAddOperator: Bool {
+    ///Check if we can add operator to calculation
+    private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "/" && elements.last != "*"
     }
     
-    var expressionHaveResult: Bool {
+    ///Check if expression have result
+    private var expressionHaveResult: Bool {
         return calculText.firstIndex(of: "=") != nil
     }
     
-    var expressionHaveDivisionByZero: Bool {
+    ///Check if expression divides by zero
+    private var expressionHaveDivisionByZero: Bool {
         return calculText.contains("/ 0")
     }
     
+    /// Format the result of the calculation
     private let numberFormatter: NumberFormatter = {
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = 0
@@ -63,11 +68,12 @@ class Calculator {
         return numberFormatter
     }()
     
-    
+    /// Reset the calcul
     func tappedClearButton() {
         calculText = ""
     }
     
+    /// Add new number to the calcul
     func tappedNumberButton(numberText: String) {
         if expressionHaveResult {
             calculText = ""
@@ -76,21 +82,19 @@ class Calculator {
         calculText.append(numberText)
     }
     
+    /// Add new operator to the calcul
     func tappedOperatorButton(operatorText: String) {
         if expressionHaveResult {
             tappedClearButton()
         }
-        
-        // si on peut ajouter un opérateur et que le calcul n'est pas vide
-        // si le calcul est vide et que l'opérateur est un -
-        
+ 
         if (canAddOperator && !calculText.isEmpty) || (calculText.isEmpty && operatorText == "-") {
             calculText.append(" \(operatorText) ")
         } else {
             calculatorDisplayDelegate?.showAlert(message: "Impossible de damarrer avec \(operatorText) !")
         }
     }
-    
+    /// Add equals and perform the operation
     func tappedEqualButton() {
         guard expressionIsCorrect else {
             calculatorDisplayDelegate?.showAlert(message: "Entrez une expression correcte !")
@@ -131,30 +135,22 @@ class Calculator {
         calculText.append(" = \(resultFormatted)")
     }
     
-    func priorityCalcul(elements: [String]) -> [String] {
+    /// Execute all multiplications and divides in the calcul
+    private func priorityCalcul(elements: [String]) -> [String] {
         var tempElements = elements
-        // Ici devoir faire un boucle while qui va chequer si tempElements contien un multipliant ou contien un diviser
         while tempElements.contains("*") || tempElements.contains("/") {
-            //Ici je vais recuperer l'index du premier signe multiplier ou diviser que je rencontre
             if let index = tempElements.firstIndex(where: { $0 == "*" || $0 == "/"}) {
-                //maintenant qu'on a l'index on va recuperer la valeur de cette index
                 let mathOperator = tempElements[index]
-                //aller recuperer le chifre a gauche (index - 1) et ensuite
                 guard let leftNumber = Double(tempElements[index - 1]) else { return [] }
-                //ensuite recuperer le chifre a droite avec (index + 1)
                 guard let rightNumber = Double(tempElements[index + 1]) else { return [] }
-                // si l'operteur est un multiplier alors chifre de gauche multiplier par chifre de droite si non chifre de gauche diviser par chifr de droite et on stocke le resultat du calcul dans une variable
                 let result: Double
                 if mathOperator == "*" {
                     result = leftNumber * rightNumber
                 } else {
                     result = leftNumber / rightNumber
                 }
-                // Maintenant qu'on a le resultat du calcul on va remplacer le chifre de gauche par le resultat du calcul
                 tempElements[index - 1] = String(result)
-                // on va suprimer le chifre de droite
                 tempElements.remove(at: index + 1)
-                // et on suprime l'operateur
                 tempElements.remove(at: index)
             }
         }

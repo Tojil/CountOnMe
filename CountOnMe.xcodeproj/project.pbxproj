@@ -75,6 +75,33 @@
 			path = CountOnMeTests;
 			sourceTree = "<group>";
 		};
+		1A79CC102523319100259972 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD4224E569900F565CB /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1A79CC11252331A200259972 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD6224E569900F565CB /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1A79CC12252331D100259972 /* Suporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
+				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
+				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
+				1FA43BDE224E569A00F565CB /* Info.plist */,
+			);
+			path = "Suporting Files";
+			sourceTree = "<group>";
+		};
 		1FA43BC6224E569900F565CB = {
 			isa = PBXGroup;
 			children = (
@@ -96,13 +123,10 @@
 		1FA43BD1224E569900F565CB /* CountOnMe */ = {
 			isa = PBXGroup;
 			children = (
+				1A79CC12252331D100259972 /* Suporting Files */,
+				1A79CC11252331A200259972 /* View */,
+				1A79CC102523319100259972 /* Controller */,
 				1A51008B2428FF3E00516062 /* Model */,
-				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
-				1FA43BD6224E569900F565CB /* Main.storyboard */,
-				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
-				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
-				1FA43BDE224E569A00F565CB /* Info.plist */,
 			);
 			path = CountOnMe;
 			sourceTree = "<group>";
@@ -152,7 +176,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Vincent Saluzzo";
 				TargetAttributes = {
 					1A76E28E2423630B00DEA4B0 = {
@@ -320,6 +344,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -381,6 +406,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -415,7 +441,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Suporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -432,7 +458,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Suporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
