@@ -131,4 +131,13 @@ class CountOnMeTests: XCTestCase {
         calculator.tappedEqualButton()
         XCTAssertEqual(calculator.calculText, " - 1 + 1 = 0")
     }
+    
+    func testCanDivides_WhenNumberStartingByZeroAndHaveSecondNumber_ThenAbbleToHaveResult () {
+        calculator.tappedNumberButton(numberText: "1")
+        calculator.tappedOperatorButton(operatorText: "/")
+        calculator.tappedNumberButton(numberText: "0")
+        calculator.tappedNumberButton(numberText: "5")
+        calculator.tappedEqualButton()
+        XCTAssertEqual(calculator.calculText, "1 / 05 = 0.2")
+    }
 }

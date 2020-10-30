@@ -57,7 +57,14 @@ class Calculator {
     
     ///Check if expression divides by zero
     private var expressionHaveDivisionByZero: Bool {
-        return calculText.contains("/ 0")
+        var tempElements = elements
+        while let index = tempElements.firstIndex(of: "/") {
+            if tempElements[index + 1] == "0" {
+                return true
+            }
+            tempElements.remove(at: index)
+        }
+        return false
     }
     
     /// Format the result of the calculation
